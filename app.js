@@ -1,10 +1,69 @@
 const game = {
   title: 'Guess the Number!',
-  biggestNum: 100,
-  smallestNum: 1,
+  biggestNum: 0,
+  biggestCheck: false,
+  smallestNum: 0,
+  smallestCheck: false,
   secretNum: null,
+  getGuess: null,
+  state: false,
+  player: {
+    prevGuesses: [],
+    input: '',
+  
+    },
   play: function() {
+      
+    while ((this.smallestCheck === false) && (this.biggestCheck === false)){
+    
+      while (this.smallestCheck === false){
+      this.smallestNum = parseInt(prompt('Enter the smallest number'), 10)
+
+      if (Object.is(this.smallestNum, NaN)) {
+        alert(`Please enter a valid number`)
+      } else this.smallestCheck = true
+      }
+
+      while (this.biggestCheck === false){
+        this.biggestNum = parseInt(prompt('Enter the biggest number'), 10)
+
+        if (Object.is(this.biggestNum, NaN)) {
+          alert(`Please enter a valid number`)
+
+        } else if (this.biggestNum <= this.smallestNum) {
+          alert(`please enter a number greater than ${this.smallestNum}`)
+
+        } else this.biggestCheck = true
+      }
+    }
+
+    if ((this.smallestCheck === true) && (this.biggestCheck === true)){
+      
+    
+
     this.secretNum = Math.floor(Math.random() * 
       (this.biggestNum - this.smallestNum + 1)) + this.smallestNum
+
+    if (window.confirm('game state comfirmed, restart?')){
+        game.quit()
+    }
+    }
+  },
+
+  quit: function() {
+    this.state = false
+    game.player.input = ''
+    this.smallestCheck = false
+    this.biggestCheck = false
+  },
+}
+
+while (game.state === false) {
+  game.player.input = prompt('Welcome to "Guess the Number"! Enter "play" to begin the game!').toLowerCase()
+  
+  if (game.player.input === 'play') {
+    game.state = true
+    game.play()
   }
+
 }
