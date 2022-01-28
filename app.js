@@ -10,10 +10,9 @@ const game = {
   player: {
     prevGuesses: [],
     input: '',
-  
-    },
-  play: function() {
-      
+  },
+  setup: function() {
+
     while ((this.smallestCheck === false) && (this.biggestCheck === false)){
     
       while (this.smallestCheck === false){
@@ -38,18 +37,24 @@ const game = {
     }
 
     if ((this.smallestCheck === true) && (this.biggestCheck === true)){
-      
-    
+      if (window.confirm(`Guess gaming between ${this.smallestNum} and ${this.biggestNum} OK? Click cancel to choose new numbers.`)){
+        game.play()
+      } else game.reset() + game.setup()
+    }
+  },
+  play: function() {
 
     this.secretNum = Math.floor(Math.random() * 
       (this.biggestNum - this.smallestNum + 1)) + this.smallestNum
 
-    if (window.confirm('game state comfirmed, restart?')){
-        game.quit()
-    }
-    }
-  },
+    
 
+    
+  },
+  reset: function() {
+    this.smallestCheck = false
+    this.biggestCheck = false
+  },
   quit: function() {
     this.state = false
     game.player.input = ''
@@ -63,7 +68,7 @@ while (game.state === false) {
   
   if (game.player.input === 'play') {
     game.state = true
-    game.play()
+    game.setup()
   }
 
 }
