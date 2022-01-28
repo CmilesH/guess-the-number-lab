@@ -7,11 +7,9 @@ const game = {
   secretNum: null,
   getGuess: null,
   state: false,
-  player: {
-    prevGuesses: [],
-    input: '',
-  },
-  setup: function() {
+  prevGuesses: [],
+  input: '',
+  setup() {
 
     while ((this.smallestCheck === false) && (this.biggestCheck === false)){
     
@@ -37,36 +35,52 @@ const game = {
     }
 
     if ((this.smallestCheck === true) && (this.biggestCheck === true)){
-      if (window.confirm(`Guess gaming between ${this.smallestNum} and ${this.biggestNum} OK? Click cancel to choose new numbers.`)){
+      if (window.confirm(`Guess gaming between ${this.smallestNum} and ${this.biggestNum} OK? 
+      
+      Click cancel to choose new numbers.`)){
         game.play()
       } else game.reset() + game.setup()
     }
   },
-  play: function() {
+  render() {
+
+    while (this.getGuess != this.secretNum){
+      this.getGuess = prompt(`I'm thinking of a number between ${smallestNum} and ${biggestNum}...
+      
+      Take a guess!`)
+  
+      if (this.getGuess > this.secretNum) {
+        alert('That number is too high!')
+      
+      } else if (this.getGuess < this.secretNum) {
+        alert('That number is too low!')
+      }
+  }
+  },
+  play() {
 
     this.secretNum = Math.floor(Math.random() * 
       (this.biggestNum - this.smallestNum + 1)) + this.smallestNum
 
     
 
-    
-  },
-  reset: function() {
+    },
+  reset() {
     this.smallestCheck = false
     this.biggestCheck = false
   },
-  quit: function() {
+  quit() {
     this.state = false
-    game.player.input = ''
+    game.input = ''
     this.smallestCheck = false
     this.biggestCheck = false
   },
 }
 
 while (game.state === false) {
-  game.player.input = prompt('Welcome to "Guess the Number"! Enter "play" to begin the game!').toLowerCase()
+  game.input = prompt('Welcome to "Guess the Number"! Enter "play" to begin the game!').toLowerCase()
   
-  if (game.player.input === 'play') {
+  if (gameinput === 'play') {
     game.state = true
     game.setup()
   }
