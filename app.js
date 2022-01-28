@@ -35,7 +35,7 @@ const game = {
     }
 
     if ((this.smallestCheck === true) && (this.biggestCheck === true)){
-      if (window.confirm(`Guess gaming between ${this.smallestNum} and ${this.biggestNum} OK? 
+      if (window.confirm(`Guessing game between ${this.smallestNum} and ${this.biggestNum} OK? 
       
       Click cancel to choose new numbers.`)){
         game.play()
