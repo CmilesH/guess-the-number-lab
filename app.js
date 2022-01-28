@@ -16,7 +16,7 @@ const game = {
       while (this.smallestCheck === false){
       this.smallestNum = parseInt(prompt('Enter the smallest number'), 10)
 
-      if (Object.is(this.smallestNum, NaN)) {
+      if (validNum(this.smallestNum)) {
         alert(`Please enter a valid number`)
       } else this.smallestCheck = true
       }
@@ -24,7 +24,7 @@ const game = {
       while (this.biggestCheck === false){
         this.biggestNum = parseInt(prompt('Enter the biggest number'), 10)
 
-        if (Object.is(this.biggestNum, NaN)) {
+        if (validNum(this.biggestNum)) {
           alert(`Please enter a valid number`)
 
         } else if (this.biggestNum <= this.smallestNum) {
@@ -43,27 +43,48 @@ const game = {
     }
   },
   render() {
-
-    while (this.getGuess != this.secretNum){
-      this.getGuess = prompt(`I'm thinking of a number between ${smallestNum} and ${biggestNum}...
-      
-      Take a guess!`)
   
       if (this.getGuess > this.secretNum) {
-        alert('That number is too high!')
-      
+        alert(`That number is too high!
+        
+        Previous guesses: ${this.prevGuesses}`)
+        
+        if (this.getGuess < this.biggestNum){
+        
+          this.biggestNum = this.getGuess
+        }
       } else if (this.getGuess < this.secretNum) {
-        alert('That number is too low!')
+        alert(`That number is too low!
+        
+        Previous guesses: ${this.prevGuesses}`)
+        if (this.getGuess > this.smallestNum){
+        
+          this.smallestNum = this.getGuess
+        }
       }
-  }
+      else if (this.getGuess === this.secretNum) {
+        return alert(`Congrats! you guessed the number in ${this.prevGuesses.length} tries!`)
+      }
   },
   play() {
 
     this.secretNum = Math.floor(Math.random() * 
       (this.biggestNum - this.smallestNum + 1)) + this.smallestNum
 
-    
+      while (this.getGuess != this.secretNum){
+        this.getGuess = parseInt(prompt(`I'm thinking of a number between ${this.smallestNum} and ${this.biggestNum}...
+        
+        Take a guess!`))
 
+        if (validNum(this.getGuess)) {
+          ('Please enter a valid number')
+        } else {
+          this.prevGuesses.push(this.getGuess)
+          this.render() 
+          }
+
+      }
+      
     },
   reset() {
     this.smallestCheck = false
@@ -77,12 +98,18 @@ const game = {
   },
 }
 
+function validNum(num) {
+  return Object.is(num, NaN)
+}
+
 while (game.state === false) {
   game.input = prompt('Welcome to "Guess the Number"! Enter "play" to begin the game!').toLowerCase()
   
-  if (gameinput === 'play') {
+  if (game.input === 'play') {
     game.state = true
     game.setup()
   }
 
 }
+
+
